@@ -1,298 +1,8 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-emi-calculator',
-//   imports: [],
-//   templateUrl: './emi-calculator.html',
-//   styleUrl: './emi-calculator.css',
-// })
-// export class EmiCalculator {
-
-// }
-
-// import { Component } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { FormsModule } from '@angular/forms';
- 
-// @Component({
-//   selector: 'app-emi-calculator',
-//   standalone: true,
-//   imports: [CommonModule, FormsModule],
-//   templateUrl: './emi-calculator.html',
-//   styleUrls: ['./emi-calculator.css']
-// })
-// export class EmiCalculator {
-//   principal: number | null = null;
-//   annualRate: number | null = null;
-//   tenureYears: number | null = null;
- 
-//   emi: number | null = null;
-//   totalInterest: number | null = null;
-//   totalAmount: number | null = null;
- 
-//   errorMessage = '';
- 
-//   calculateEmi(): void {
-//     this.errorMessage = '';
-//     this.emi = this.totalInterest = this.totalAmount = null;
- 
-//     if (!this.principal || !this.annualRate || !this.tenureYears) {
-//       this.errorMessage = 'Please enter all the values.';
-//       return;
-//     }
- 
-//     if (this.principal <= 0 || this.annualRate <= 0 || this.tenureYears <= 0) {
-//       this.errorMessage = 'Values must be greater than zero.';
-//       return;
-//     }
- 
-//     const P = this.principal;
-//     const r = (this.annualRate / 12) / 100;
-//     const n = this.tenureYears * 12;
- 
-//     const factor = Math.pow(1 + r, n);
-//     const emi = P * r * factor / (factor - 1);
- 
-//     this.emi = parseFloat(emi.toFixed(2));
-//     const totalAmount = emi * n;
-//     this.totalAmount = parseFloat(totalAmount.toFixed(2));
-//     this.totalInterest = parseFloat((totalAmount - P).toFixed(2));
-//   }
- 
-//   resetForm(form: any): void {
-//     form.resetForm();
-//     this.errorMessage = '';
-//     this.emi = this.totalInterest = this.totalAmount = null;
-//   }
-// }
-//  import { Component } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { FormsModule } from '@angular/forms';
-// import { HttpClient, HttpClientModule } from '@angular/common/http';
- 
-// @Component({
-//   selector: 'app-emi-calculator',
-//   standalone: true,
-//   imports: [CommonModule, FormsModule, HttpClientModule],
-//   templateUrl: './emi-calculator.html',
-//   styleUrl: './emi-calculator.css'
-// })
-// export class EmiCalculator {
- 
-//   principal: number | null = null;
-//   annualRate: number | null = null;
-//   tenureYears: number | null = null;
- 
-//   emi: number | null = null;
-//   totalInterest: number | null = null;
-//   totalAmount: number | null = null;
- 
-//   errorMessage = '';
- 
-//   private apiUrl = 'http://localhost:8080/api/emi/calculate';
- 
-//   constructor(private http: HttpClient) {}
- 
-//   calculateEmi(): void {
-//     this.errorMessage = '';
-//     this.emi = this.totalInterest = this.totalAmount = null;
- 
-//     if (!this.principal || !this.annualRate || !this.tenureYears) {
-//       this.errorMessage = 'Please enter all the values.';
-//       return;
-//     }
- 
-//     if (this.principal <= 0 || this.annualRate <= 0 || this.tenureYears <= 0) {
-//       this.errorMessage = 'Values must be greater than zero.';
-//       return;
-//     }
- 
-//     const payload = {
-//       loanValue: this.principal,
-//       yearlyInterestRate: this.annualRate,
-//       loanTermYears: this.tenureYears
-//     };
- 
-//     this.http.post<{ emiAmount: number }>(this.apiUrl, payload).subscribe({
-//       next: (response) => {
-//         this.emi = response.emiAmount;
- 
-//         const n = this.tenureYears! * 12;
-//         const totalAmount = this.emi * n;
-//         this.totalAmount = parseFloat(totalAmount.toFixed(2));
-//         this.totalInterest = parseFloat((totalAmount - this.principal!).toFixed(2));
-//       },
-//       error: (err) => {
-//         console.error(err);
-//         this.errorMessage = 'Backend error. Please try again.';
-//       }
-//     });
-//   }
- 
-//   resetForm(form: any): void {
-//     form.resetForm();
-//     this.errorMessage = '';
-//     this.emi = this.totalInterest = this.totalAmount = null;
-//   }
-// }
- 
-
-// import { Component } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { FormsModule } from '@angular/forms';
-// import { HttpClient, HttpClientModule } from '@angular/common/http';
- 
-// @Component({
-//   selector: 'app-emi-calculator',
-//   standalone: true,
-//   imports: [CommonModule, FormsModule, HttpClientModule],
-//   templateUrl: './emi-calculator.html',
-//   styleUrls: ['./emi-calculator.css']
-// })
-// export class EmiCalculator {
- 
-//   principal: number = 0;
-//   annualRate: number = 0;
-//   tenureYears: number = 0;
- 
-//   emi: number | null = null;
-//   totalInterest: number | null = null;
-//   totalAmount: number | null = null;
- 
-//   errorMessage: string = '';
- 
-//   constructor(private http: HttpClient) {}
- 
-//   calculateEmi(): void {
- 
-//     this.errorMessage = '';
-//     this.emi = this.totalInterest = this.totalAmount = null;
- 
-//     if (this.principal <= 0 || this.annualRate <= 0 || this.tenureYears <= 0) {
-//       this.errorMessage = 'Please enter valid values.';
-//       return;
-//     }
- 
-//     const payload = {
-//       loanValue: this.principal,
-//       yearlyInterestRate: this.annualRate,
-//       loanTermYears: this.tenureYears
-//     };
- 
-//     this.http.post<any>("http://localhost:8080/api/emi/calculate", payload)
-//       .subscribe({
-//         next: (response) => {
-//           const emiValue = response.emiAmount;
- 
-//           this.emi = Number(emiValue.toFixed(2));
-//           this.totalAmount = Number((this.emi * (this.tenureYears * 12)).toFixed(2));
-//           this.totalInterest = Number((this.totalAmount - this.principal).toFixed(2));
-//         },
-//         error: () => {
-//           this.errorMessage = "Backend error! Start Spring Boot!";
-//         }
-//       });
-//   }
- 
-//   resetForm(): void {
-//     this.principal = 0;
-//     this.annualRate = 0;
-//     this.tenureYears = 0;
-//     this.errorMessage = '';
-//     this.emi = this.totalInterest = this.totalAmount = null;
-//   }
-// }
-
-
-// import { Component } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { FormsModule } from '@angular/forms';
-// import { HttpClient, HttpClientModule } from '@angular/common/http';
- 
-// interface EmiResponse {
-//   emiAmount: number;
-// }
- 
-// @Component({
-//   selector: 'app-emi-calculator',
-//   standalone: true,
-//   imports: [CommonModule, FormsModule, HttpClientModule],
-//   templateUrl: './emi-calculator.html',
-//   styleUrls: ['./emi-calculator.css']
-// })
-// export class EmiCalculator {
- 
-//   principal: number | null = null;
-//   annualRate: number | null = null;
-//   tenureYears: number | null = null;
- 
-//   emi: number | null = null;
-//   totalInterest: number | null = null;
-//   totalAmount: number | null = null;
- 
-//   errorMessage = '';
- 
-//   private apiUrl = 'http://localhost:8080/api/emi/calculate';
- 
-//   constructor(private http: HttpClient) {}
- 
-//   calculateEmi(): void {
-//     this.errorMessage = '';
-//     this.emi = this.totalInterest = this.totalAmount = null;
- 
-//     // 1) empty check
-//     if (this.principal == null || this.annualRate == null || this.tenureYears == null) {
-//       this.errorMessage = 'Please enter all the values.';
-//       return;
-//     }
- 
-//     // 2) positive values check
-//     if (this.principal <= 0 || this.annualRate <= 0 || this.tenureYears <= 0) {
-//       this.errorMessage = 'Values must be greater than zero.';
-//       return;
-//     }
- 
-//     const payload = {
-//       loanValue: this.principal,
-//       yearlyInterestRate: this.annualRate,
-//       loanTermYears: this.tenureYears
-//     };
- 
-//     this.http.post<EmiResponse>(this.apiUrl, payload).subscribe({
-//       next: (res) => {
-//         // 1) set EMI from backend
-//         this.emi = Number(res.emiAmount.toFixed(2));
- 
-//         // 2) calculate months
-//         const months = this.tenureYears! * 12;
- 
-//         // 3) total amount & interest
-//         const ta = this.emi * months;
-//         this.totalAmount = Number(ta.toFixed(2));
-//         this.totalInterest = Number((this.totalAmount - this.principal!).toFixed(2));
- 
-//         console.log('EMI from backend:', this.emi);
-//       },
-//       error: (err) => {
-//         console.error('Backend error:', err);
-//         this.errorMessage = 'Failed to calculate EMI from server.';
-//       }
-//     });
-//   }
- 
-//   resetForm(): void {
-//     this.principal = null;
-//     this.annualRate = null;
-//     this.tenureYears = null;
-//     this.errorMessage = '';
-//     this.emi = this.totalInterest = this.totalAmount = null;
-//   }
-// }
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
  
 interface EmiResponse {
   emiAmount: number;
@@ -314,7 +24,7 @@ interface EmiResult {
 export class EmiCalculator implements OnInit {
   emiForm!: FormGroup;
   
-  result$: Observable<EmiResult | null> | null = null;
+  result$ = new BehaviorSubject<EmiResult | null>(null);
   errorMessage = '';
   isLoading = false;
  
@@ -434,7 +144,7 @@ export class EmiCalculator implements OnInit {
  
   calculateEmi(): void {
     this.errorMessage = '';
-    this.result$ = null;
+    this.result$.next(null);
 
     // Mark all fields as touched to show validation errors
     Object.keys(this.emiForm.controls).forEach(key => {
@@ -475,11 +185,8 @@ export class EmiCalculator implements OnInit {
         console.log('Total Amount:', totalAmount);
         console.log('Total Interest:', totalInterest);
         
-        // Set result observable (Angular will automatically detect changes)
-        this.result$ = new Observable(observer => {
-          observer.next({ emi, totalInterest, totalAmount });
-          observer.complete();
-        });
+        // Set result using BehaviorSubject (efficient, fast update)
+        this.result$.next({ emi, totalInterest, totalAmount });
         
         this.isLoading = false;
       },
@@ -493,7 +200,7 @@ export class EmiCalculator implements OnInit {
  
   resetForm(): void {
     this.emiForm.reset();
-    this.result$ = null;
+    this.result$.next(null);
     this.errorMessage = '';
     this.isLoading = false;
   }
