@@ -1,0 +1,68 @@
+<div class="emi-container">
+  <h2>EMI Calculator</h2>
+
+  <form [formGroup]="emiForm" (ngSubmit)="calculateEmi()">
+    <!-- Principal Amount Input -->
+    <div class="form-group">
+      <label for="principal">Loan Amount (₹) <span class="required">*</span></label>
+      <input
+        id="principal"
+        type="number"
+        formControlName="principal"
+        placeholder="Enter loan amount"
+        min="1"
+      />
+      <p *ngIf="hasError('principal')" class="field-error">{{ getErrorMessage('principal') }}</p>
+    </div>
+
+    <!-- Interest Rate Input -->
+    <div class="form-group">
+      <label for="rate">Interest Rate (% per year) <span class="required">*</span></label>
+      <input
+        id="rate"
+        type="number"
+        formControlName="annualRate"
+        placeholder="Enter annual interest rate (0-100%)"
+        min="0.01"
+        max="100"
+        step="0.01"
+      />
+      <p *ngIf="hasError('annualRate')" class="field-error">{{ getErrorMessage('annualRate') }}</p>
+    </div>
+
+    <!-- Tenure Input -->
+    <div class="form-group">
+      <label for="tenure">Tenure (years) <span class="required">*</span></label>
+      <input
+        id="tenure"
+        type="number"
+        formControlName="tenureYears"
+        placeholder="Enter loan tenure in years (1-30)"
+        min="1"
+        max="30"
+      />
+      <p *ngIf="hasError('tenureYears')" class="field-error">{{ getErrorMessage('tenureYears') }}</p>
+    </div>
+
+    <!-- Buttons -->
+    <div class="buttons">
+      <button type="submit" [disabled]="isLoading">
+        {{ isLoading ? 'Calculating...' : 'Calculate EMI' }}
+      </button>
+      <button type="button" (click)="resetForm()" [disabled]="isLoading">Reset</button>
+    </div>
+  </form>
+
+  <!-- Error Message -->
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+
+  <!-- Results Section - Using Async Pipe (automatic change detection) -->
+  <ng-container *ngIf="result$ | async as result">
+    <div class="result-box">
+      <h3>Your Results</h3>
+      <p><strong>Monthly EMI:</strong> ₹ {{ result.emi | number: '1.2-2' }}</p>
+      <p><strong>Total Interest:</strong> ₹ {{ result.totalInterest | number: '1.2-2' }}</p>
+      <p><strong>Total Amount Payable:</strong> ₹ {{ result.totalAmount | number: '1.2-2' }}</p>
+    </div>
+  </ng-container>
+</div>
